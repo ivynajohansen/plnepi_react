@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
 
-import DataProductTable from './tables/dataproductTable';
+import LogActivityTable from './tables/logActivityTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import EditModal from './modals/editModal';
-import UploadModal from './modals/uploadModal';
-import DownloadModal from './modals/downloadModal';
-
-function DataProduct() {
+function LogActivity() {
 
   return (
     <>
       <div className="p-2 m-0 ViewBox-title d-flex align-items-center">
-        <h3 className="text-dark my-2 ml-2">Data Product</h3>
+        <h3 className="text-dark my-2 ml-2">Log Activity</h3>
       </div>
       <div className="ViewBox-content p-2">
-  
-        <div className="menu text-right d-flex justify-content-end">
-          <UploadModal/>
-          <DownloadModal/>
-          <EditModal/>
-        </div>
 
         <div className="d-flex justify-content-between mt-3">
           <form action="" method="get">
@@ -42,11 +32,11 @@ function DataProduct() {
         </div>
 
         <div className="data py-3" id="table_container">
-          <DataProductTable/>
+          <LogActivityTable/>
         </div>
       </div>
     </>
   );
 }
 
-export default DataProduct;
+export default LogActivity;

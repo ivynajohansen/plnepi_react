@@ -1,9 +1,17 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBook, faTable,  faFileUpload, faBolt, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
+import 'w3-css/w3.css';
+import "@fontsource/inter";
+
 import './../css/style.css';
 
 import Logo from './../images/logo.png';
+
 import DataProduct from '../components/dataproduct';
+import LogActivity from '../components/logActivity';
+import LogUploadFile from '../components/logUploadFile';
+import BebanHarian from '../components/bebanHarian';
 
 const Layout = ({pageName}) => {
 
@@ -12,10 +20,19 @@ const Layout = ({pageName}) => {
     if (pageName === '/data-product') {
         content = <DataProduct />;
     } 
+    else if (pageName === '/log-activity') {
+        content = <LogActivity />;
+    }  
+    else if (pageName === '/log-upload-file') {
+      content = <LogUploadFile />;
+    }  
+    else if (pageName === '/beban-harian') {
+      content = <BebanHarian />;
+    }  
+
 
   return (
     <div className="bg">
-      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
       <header className="w3-sidebar w3-bar-block p-0 m-0">
         <div className="text-center p-4">
           <img style={{ width: '80%' }} className="my-1" src={Logo} alt="Logo" />
@@ -24,16 +41,16 @@ const Layout = ({pageName}) => {
         <div className="navbar-container mt-2">
           <ul className="navbar ml-auto justify-content-start d-block p-0">
             <li className="nav-item my-1">
-              <a href="/data-product" className="nav-link text-start">&#xf0ce; &nbsp; Data Product</a>
+              <a href="/data-product" className="nav-link text-start"><FontAwesomeIcon icon={faTable} /> &nbsp; Data Product</a>
             </li>
             <li className="nav-item my-1">
-              <a href="/log-activity" className="nav-link text-start">&#xf02d; &hairsp; &hairsp; Log Activity</a>
+              <a href="/log-activity" className="nav-link text-start"><FontAwesomeIcon icon={faBook} /> &nbsp; Log Activity</a>
             </li>
             <li className="nav-item my-1">
-              <a href="/log-upload-file" className="nav-link text-start">&hairsp; &#xf574; &nbsp; Log Upload File</a>
+              <a href="/log-upload-file" className="nav-link text-start"><FontAwesomeIcon icon={faFileUpload} /> &nbsp; Log Upload File</a>
             </li>
             <li className="nav-item my-1">
-              <a href="/beban-harian" className="nav-link text-start">&hairsp; &#xf0e7; &nbsp; Beban Harian</a>
+              <a href="/beban-harian" className="nav-link text-start"><FontAwesomeIcon icon={faBolt} /> &nbsp; Beban Harian</a>
             </li>
           </ul>
         </div>
@@ -42,7 +59,7 @@ const Layout = ({pageName}) => {
           <ul className="navbar bottom ml-auto justify-content-start d-block p-0">
             <li className="nav-item w-100">
               <form action="{{ route('logout') }}" method="POST">
-                <button className="logout-button nav-link text-left w-100" type="submit">&#xf2f5; &nbsp; Logout</button>
+                <button className="logout-button nav-link text-left w-100" type="submit"><FontAwesomeIcon icon={faSignOutAlt} /> &nbsp; Logout</button>
               </form>
             </li>
           </ul>
@@ -50,7 +67,7 @@ const Layout = ({pageName}) => {
       </header>
       <div className="rightside p-4" style={{ marginLeft: '18%' }}>
         <div className="content">
-          {/* Content goes here */}
+          {content}
         </div>
       </div>
     </div>

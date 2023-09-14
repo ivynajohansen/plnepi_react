@@ -47,6 +47,10 @@ label, select {
     z-index:1;
 }
 
+.form-group{
+    text-align: left;
+}
+
 .form-control{
     font-size: 18px;
 }
@@ -117,7 +121,7 @@ label, select {
 
 
 .modal {
-    display: none; /* Hidden by default */
+    display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 5; /* Sit on top */
     left: 0;
@@ -244,7 +248,7 @@ label, select {
     list-style-type: none;
 }
 
-.w3-sidebar{
+.bg .w3-sidebar{
     width: 18%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
@@ -252,7 +256,7 @@ label, select {
 .rightside{
     padding: 10px;
     background-image: linear-gradient(to bottom, #37b3e4, #3b93b6);
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 .content{
