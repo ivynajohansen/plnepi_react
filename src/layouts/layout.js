@@ -8,10 +8,10 @@ import './../css/style.css';
 
 import Logo from './../images/logo.png';
 
-import DataProduct from '../components/dataproduct';
-import LogActivity from '../components/logActivity';
-import LogUploadFile from '../components/logUploadFile';
-import BebanHarian from '../components/bebanHarian';
+import DataProduct from '../dataproduct';
+import LogActivity from '../logActivity';
+import LogUploadFile from '../logUploadFile';
+import BebanHarian from '../bebanHarian';
 
 const Layout = ({pageName}) => {
 

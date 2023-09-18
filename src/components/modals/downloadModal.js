@@ -3,6 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './../../css/style.css';
 import React, { useState } from 'react';
 import moment from 'moment';
+import DateInput from '../dateInput.js';
 
 const DownloadModal = () => {
 
@@ -57,19 +58,15 @@ const DownloadModal = () => {
 
            <div className="form-group">
                 <div className='input-group date' id='date_picker_download'>
-                  <DatePicker
+                  <DateInput
                     selected={moment(downloadDate, 'DD/MM/YYYY').toDate()}
                     onChange={handleDatePickerChange}
-                    dateFormat="dd/MM/yyyy"
                     id="download_date"
                     className="form-control datepicker-control"
-                    disabled={isDatePickerDisabled}
+                    isDatePickerDisabled={isDatePickerDisabled}
                   />
-                  <span className="input-group-addon">
-                    <span className="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
               </div>
+            </div>
 
            <div className="form-group">
              <label className="font-weight-normal">

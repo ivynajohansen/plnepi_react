@@ -19,7 +19,7 @@ function Login() {
     <div>
       <form className="form pt-2 px-5 pb-4" id="login_form" onSubmit={handleSubmit}>
         <div className="form-title form-group mt-5 mb-3">
-          <h3 className="bold">SIGN IN</h3>
+          <h3 className="bold text-center">SIGN IN</h3>
         </div>
 
         <div className="d-flex justify-content-center">

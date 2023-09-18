@@ -4,13 +4,16 @@ import TimePicker from 'react-time-picker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './../../css/style.css';
 import React, { useState } from 'react';
+import moment from 'moment';
+import DateInput from '../dateInput.js';
+import TimeInput from '../timeInput.js';
 
 const UploadModal = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [uploadDate, setUploadDate] = useState(new Date());
-  const [uploadTime, setUploadTime] = useState('12:00');
+  const [uploadDate, setUploadDate] = useState(moment().format('DD/MM/YYYY'));
+  const [uploadTime, setUploadTime] = useState('');
   const [fileDescription, setFileDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -43,23 +46,24 @@ const UploadModal = () => {
            <div className="form-title form-group mt-3 mb-4">
              <h3 className="bold">Upload Data</h3>
            </div>
-           <div className="form-group d-flex">
-             <div className="form-group">
-               <DatePicker
-                 selected={uploadDate}
+           <div className="form-group d-flex datepicker w-100">
+             <div className="form-group w-50">
+               <DateInput
+                //  selected={uploadDate}
+                 inputValue={uploadDate}
                  onChange={(date) => setUploadDate(date)}
                  dateFormat="dd/MM/yyyy"
                  id="upload_date"
                  className="form-control form-input"
-               />
+               /> 
              </div>
-             <div className="ml-2">
-               <TimePicker
+             <div className="ml-2 w-50">
+               <TimeInput
                  onChange={(time) => setUploadTime(time)}
-                 value={uploadTime}
+                 inputValue={uploadTime}
                  id="upload_time"
                  format="HH:mm"
-                 className="form-control form-input"
+                 className="form-control form-input w-100"
                />
              </div>
            </div>

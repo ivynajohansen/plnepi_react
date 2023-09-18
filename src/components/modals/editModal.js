@@ -2,9 +2,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 
-const EditModal = () => {
+const EditModal = ({action}) => {
+  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  let content;
+  let title;
+
+  // action = '/edit';
+  if (action === '/edit') {
+      title = 'Edit';
+      content = <button className="sub_btn action-button text-danger" id="delete_btn" type="button"><FontAwesomeIcon icon={faTrashAlt} /> &nbsp; Delete</button>;
+  } 
+  else {
+      title = 'Add';
+  }
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -32,7 +45,7 @@ const EditModal = () => {
           </div>
           <form className="pt-2 px-5 pb-4" id="edit_form" onSubmit={handleSubmit}>
             <div className="form-title form-group mt-3 mb-4 text-left">
-              <h3 className="bold modal_title_edit">Add/Edit</h3>
+              <h3 className="bold modal_title_edit">{title}</h3>
             </div>
 
             <div className="form-group mb-3 position-relative">
@@ -57,7 +70,7 @@ const EditModal = () => {
 
             <div className="d-flex justify-content-between align-items-center">
               <div className="text-left">
-                <button className="sub_btn action-button text-danger" id="delete_btn" type="button"><FontAwesomeIcon icon={faTrashAlt} /> &nbsp; Delete</button>
+                {content}   
               </div>
               <div className="text-right">
                 <button className="sub_btn edit mt-3 mb-3" id="product_cancel" onClick={closeModal} type="button">Cancel</button>

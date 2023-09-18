@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import LogActivityTable from './tables/logActivityTable';
+import LogActivityTable from './components/tables/logActivityTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,7 +15,7 @@ function LogActivity() {
 
         <div className="d-flex justify-content-between mt-3">
           <form action="" method="get">
-            <label for="limit" className='mr-2'>Items per page:</label>
+            <label htmlFor="limit" className='mr-2'>Items per page:</label>
             <select name="limit" id="limit" onchange="">
               <option value="10">10</option>
               <option value="25">25</option>

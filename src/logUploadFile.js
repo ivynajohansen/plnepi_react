@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
-import BebanHarianTable from './tables/bebanHarianTable';
+import LogUploadFileTable from './components/tables/logUploadFileTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function BebanHarian() {
+function LogUploadFile() {
 
   return (
     <>
       <div className="p-2 m-0 ViewBox-title d-flex align-items-center">
-        <h3 className="text-dark my-2 ml-2">Beban Harian</h3>
+        <h3 className="text-dark my-2 ml-2">Log Upload File</h3>
       </div>
       <div className="ViewBox-content p-2">
 
         <div className="d-flex justify-content-between mt-3">
           <form action="" method="get">
-            <label for="limit" className='mr-2'>Items per page:</label>
+            <label htmlFor="limit" className='mr-2'>Items per page:</label>
             <select name="limit" id="limit" onchange="">
               <option value="10">10</option>
               <option value="25">25</option>
@@ -32,11 +32,11 @@ function BebanHarian() {
         </div>
 
         <div className="data py-3" id="table_container">
-          <BebanHarianTable/>
+          <LogUploadFileTable/>
         </div>
       </div>
     </>
   );
 }
 
-export default BebanHarian;
+export default LogUploadFile;

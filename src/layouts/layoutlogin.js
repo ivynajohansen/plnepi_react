@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './../css/style.css';
 
-import Login from './../components/login.js';
+import Login from './../login.js';
 import Logo from './../images/logo.png';
 import LoginImage from './../images/Login PLN Image.png';
 

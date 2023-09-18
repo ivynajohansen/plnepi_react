@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import DataProductTable from './tables/dataproductTable';
+import DataProductTable from './components/tables/dataproductTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import EditModal from './modals/editModal';
-import UploadModal from './modals/uploadModal';
-import DownloadModal from './modals/downloadModal';
+import EditModal from './components/modals/editModal';
+import UploadModal from './components/modals/uploadModal';
+import DownloadModal from './components/modals/downloadModal';
 
 function DataProduct() {
 
@@ -25,7 +25,7 @@ function DataProduct() {
 
         <div className="d-flex justify-content-between mt-3">
           <form action="" method="get">
-            <label for="limit" className='mr-2'>Items per page:</label>
+            <label htmlFor="limit" className='mr-2'>Items per page:</label>
             <select name="limit" id="limit" onchange="">
               <option value="10">10</option>
               <option value="25">25</option>
