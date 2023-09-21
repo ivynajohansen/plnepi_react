@@ -53,7 +53,6 @@ const Layout = () => {
   const logoutHandler = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       try {
         // Send a POST request to the logout API endpoint with the token in the header

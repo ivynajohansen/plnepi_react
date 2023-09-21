@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function TableQuery({ onSearch, onLimitChange }) {
+function TableQuery({ setSearchQuery, setLimit, limit }) {
   const [keyword, setKeyword] = useState('');
-  const [limit, setLimit] = useState(10);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch(keyword);
+    setSearchQuery(keyword);
   };
 
   const handleLimitChange = (e) => {
     const newLimit = e.target.value;
     setLimit(newLimit);
-    onLimitChange(newLimit);
+    setLimit(newLimit);
   };
 
   return (

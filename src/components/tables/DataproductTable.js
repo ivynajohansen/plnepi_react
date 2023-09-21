@@ -1,8 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-const DataProductTable = ({ tableData }) => {
+import EditModal from '../modals/EditModal';
+
+const DataProductTable = ({ tableData, setCurrentPage, currentPage, totalPages}) => {
+  const pageButtons = [];
+  const action = 'edit';
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -13,6 +15,31 @@ const DataProductTable = ({ tableData }) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     
     return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
+  const maxPages = 10;
+  for (let page = 1; page <= totalPages; page++) {
+    if (page <= maxPages || page > totalPages - 2) {
+      pageButtons.push(
+        <button
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={currentPage === page ? 'active' : ''}
+        >
+          {page}
+        </button>
+      );
+    } else if (page === maxPages + 1) {
+      pageButtons.push( <button
+        key={page}
+        onClick={() => handlePageChange(page)}
+        className={currentPage === page ? 'active' : ''}
+      ><span key={page}>...</span></button>);
+    }
+  }
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage); // Update the current page
   };
 
   return (
@@ -42,9 +69,8 @@ const DataProductTable = ({ tableData }) => {
                 <td>{item.CODE}</td>
                 <td>{formatDate(item.CREATED_AT)}</td>
                 <td className="text-center small-column">
-                  <button className="action-button edit-btn">
-                    <FontAwesomeIcon icon={faPen} />
-                  </button>
+                  <EditModal action={action}/>
+                  
                 </td>
               </tr>
             ))}
@@ -52,12 +78,20 @@ const DataProductTable = ({ tableData }) => {
         </table>
       </div>
 
-      <div
-        id="pagination_container"
-        className="text-center mt-4"
-        // data_current_page={currentPage}
-        // total_items={totalItems}
-      >
+      <div className="pagination pt-4 d-flex justify-content-center">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          {'⏴'}
+        </button>
+        {pageButtons}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          {'⏵'}
+        </button>
       </div>
     </div>
   );

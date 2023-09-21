@@ -325,21 +325,28 @@ table.dataTable tbody th, table.dataTable tbody td {
     padding: 10px 10px!important;
 }
 
-.pagination a, .previous, .next {
+.pagination button, .previous, .next {
     background-color: white;
-    color: black;
+    color: #306c84;
     border: 1px solid lightgray;
-    padding: 4px 12px;
+    padding: 5px 15px;
+    font-size: 18px;
+    line-height: 2rem;
 }
 
-.pagination a.active {
-    background-color: #0874bc;
+.pagination button.active, .pagination button.active:hover {
+    background-color: #306c84;
+    border: 1px solid #306c84;
     color: #fff;
 }
 
-.previous:hover, .next:hover, .pagination a:hover {
+.previous:hover, .next:hover, .pagination button:hover {
     background-color: #ddd;
     text-decoration: none;
+}
+
+.pagination button:disabled{
+    display:none;
 }
 
 .action-button{
@@ -469,4 +476,29 @@ table.dataTable tbody th, table.dataTable tbody td {
     display: none;
 }
 
-/*  */
+/* Freeze Table */
+
+table.freeze th:nth-child(1),
+table.freeze td:nth-child(1){
+    position: sticky;
+    left: 0;
+    z-index: 9999;
+}
+
+table.freeze th:nth-child(2),
+table.freeze td:nth-child(2){
+    position: sticky;
+    left: 115px;
+    z-index: 9999;
+}
+
+table.freeze tbody td:nth-child(1),
+table.freeze tbody td:nth-child(2){
+    border:inherit;
+    background-color: inherit;
+    z-index: 9999;
+}
+
+table.freeze{
+    border-collapse: separate;
+}

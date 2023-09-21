@@ -83,13 +83,12 @@ function Login() {
 
         {/* Buttons */}
         <div className="text-center">
-          <button type="submit" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit">
             {isLogging ? (
-              <Spin color="#FFFFFF" width="20px" height="20px" />
+              <button type="button" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit"><Spin color="#FFFFFF" width="20px" height="20px" /></button>
             ) : (
-              'Login'
+              <button type="submit" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit">Login</button>
             )}
-          </button>
+          
           
           {
               validation && (

@@ -1,17 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPen } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 
 const EditModal = ({action}) => {
-  
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
 
   let content;
   let title;
 
   // action = '/edit';
-  if (action === '/edit') {
+  if (action === 'edit') {
       title = 'Edit';
       content = <button className="sub_btn action-button text-danger" id="delete_btn" type="button"><FontAwesomeIcon icon={faTrashAlt} /> &nbsp; Delete</button>;
   } 
@@ -20,12 +18,12 @@ const EditModal = ({action}) => {
   }
 
   const openModal = () => {
-    setIsModalOpen(true);
+    setisModalOpen(true);
   };
 
   // Function to close the modal
   const closeModal = () => {
-    setIsModalOpen(false);
+    setisModalOpen(false);
   };
 
   const handleSubmit = (e) => {
@@ -35,7 +33,15 @@ const EditModal = ({action}) => {
 
   return (
     <div>
-      <button className="sub_btn menu ml-2 px-4 py-2" id="productdata_upload" onClick={openModal}>+ Add Data</button>
+      {action === 'add' ? (
+        <button className="sub_btn menu ml-2 px-4 py-2" id="productdata_upload" onClick={openModal}>
+          + Add Data
+        </button>
+      ) : (
+        <button className="action-button edit-btn" onClick={openModal}  >
+          <FontAwesomeIcon icon={faPen} />
+        </button>
+      )}
 
       {isModalOpen && (
       <div className="modal" id="edit_modal">

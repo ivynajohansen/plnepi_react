@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Spin } from "react-cssfx-loading";
 
 import DataProductTable from './components/tables/DataproductTable';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faPen } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import EditModal from './components/modals/EditModal';
@@ -17,20 +15,20 @@ function DataProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
-
   const [isFetching, setIsFetching] = useState(false); 
+  const action = "add";
 
   useEffect(() => {
     fetchData();
-  }, [searchQuery, limit]);
+  }, [searchQuery, limit, currentPage]);
 
   const fetchData = async () => {
     setIsFetching(true);
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/data-product`, {
         params: {
-          search: searchQuery,
-          per_page: limit,
+          keyword: searchQuery,
+          limit: limit,
           page: currentPage,
         },
       });
@@ -52,10 +50,10 @@ function DataProduct() {
         <div className="menu text-right d-flex justify-content-end">
           <UploadModal/>
           <DownloadModal/>
-          <EditModal/>
+          <EditModal action={action}/>
         </div>
 
-        <TableQuery onSearch={setSearchQuery} onLimitChange={setLimit} />
+        <TableQuery setSearchQuery={setSearchQuery} setLimit={setLimit} limit={limit} />
 
         <div className="data py-3" id="table_container">
           
@@ -64,7 +62,7 @@ function DataProduct() {
               <Spin color="#306c84" width="20px" height="20px" className = "text-cente" />
             </div>
           ) : (
-            <DataProductTable tableData={tableData}/>
+            <DataProductTable tableData={tableData} setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={totalPages}/>
           )}
         </div>
       </div>
