@@ -13,5 +13,14 @@
 }
 
 .MuiInputLabel-shrink {
-    transform: translate(0.8rem, 0rem) scale(0.75)!important; /* Adjust the values as needed */
+    transform: translate(0.9, 0rem) scale(0.75)!important; /* Adjust the values as needed */
+}
+
+.MuiStack-root.css-4jnixx-MuiStack-root{
+    width: 100%;
+}
+
+.MuiButtonBase-root:disabled, .MuiButtonBase-root:disabled:hover,.css-4jnixx-MuiStack-root>.MuiTextField-root:disabled{
+    background-color: rgb(224, 224, 224);
+    cursor: default;
 }

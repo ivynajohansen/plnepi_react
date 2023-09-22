@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Spin } from "react-cssfx-loading";
+
+import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const LogUploadFileTable = ({ tableData, setCurrentPage, currentPage, totalPages}) => {
   const pageButtons = [];
+  const [fetchingRow, setFetchingRow] = useState(null); 
+
+  const downloadFile = async (file_name) => {
+    try {
+      const response = await axios.get(`http://plnepi.alldataint.com/api/log-upload-file/` + encodeURIComponent(file_name), {
+        responseType: 'blob',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const blobURL = URL.createObjectURL(response.data);
+
+      const link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = blobURL;
+      link.download = file_name;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setFetchingRow(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -42,10 +71,6 @@ const LogUploadFileTable = ({ tableData, setCurrentPage, currentPage, totalPages
     setCurrentPage(newPage); // Update the current page
   };
 
-  const downloadFile = async () =>{
-    console.log("Downloading File");
-  }
-
   return (
     <div>
       <div id="table_loading_overlay" className="overlay text-center justify-content-center">
@@ -73,7 +98,22 @@ const LogUploadFileTable = ({ tableData, setCurrentPage, currentPage, totalPages
                   <td>{item.file_name}</td>
                   <td>{item.file_description}</td>
                   <td className="text-center small-column">
-                    <button className="action-button edit-btn" onClick={downloadFile}  ><FontAwesomeIcon icon={faDownload} /></button>
+                    {fetchingRow === item.id ? (
+                      <button className="action-button edit-btn" disabled>
+                        <Spin color="#306c84" width="20px" height="20px" className = "text-center" />
+                      </button>
+                    ) : (
+                      <button
+                        className="action-button edit-btn"
+                        onClick={() => {
+                          setFetchingRow(item.id);
+                          // Add your download logic here
+                          downloadFile(item.file_name);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faDownload} />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

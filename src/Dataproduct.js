@@ -59,7 +59,7 @@ function DataProduct() {
           
           {isFetching ? (
             <div className = "w-100 d-flex justify-content-center">
-              <Spin color="#306c84" width="20px" height="20px" className = "text-cente" />
+              <Spin color="#306c84" width="20px" height="20px" className = "text-center" />
             </div>
           ) : (
             <DataProductTable tableData={tableData} setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={totalPages}/>

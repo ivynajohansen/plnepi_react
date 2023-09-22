@@ -20,16 +20,14 @@ function Login() {
     e.preventDefault();
     setIsLogging(true);
     
-    //initialize formData
-    const formData = new FormData();
-
-    //append data to formData
-    formData.append('username', username);
-    formData.append('password', password);
+    const requestData = {
+      username: username,
+      password: password,
+    };
 
     //send data to server
     try {
-      const response = await axios.post('http://plnepi.alldataint.com/api/login', formData);
+      const response = await axios.post('http://plnepi.alldataint.com/api/login', requestData);
       const token = response.data.token;
       localStorage.setItem('token', token);
       navigate('/');
@@ -84,7 +82,7 @@ function Login() {
         {/* Buttons */}
         <div className="text-center">
             {isLogging ? (
-              <button type="button" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit"><Spin color="#FFFFFF" width="20px" height="20px" /></button>
+              <button type="button" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit"><Spin color="#FFFFFF" width="20px" height="20px"/></button>
             ) : (
               <button type="submit" className="primary_btn mt-4 mb-3 px-5" id="customerlogin_submit">Login</button>
             )}
