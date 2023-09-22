@@ -29,8 +29,6 @@ const BebanHarianTable = ({ tableData, setCurrentPage, currentPage, totalPages, 
     } else if (page === maxPages + 1) {
       pageButtons.push( <button
         key={page}
-        onClick={() => handlePageChange(page)}
-        className={currentPage === page ? 'active' : ''}
       ><span key={page}>...</span></button>);
     }
   }

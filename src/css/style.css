@@ -314,11 +314,11 @@ table tbody td {
     font-size: 16px;
     font-weight: 600;
 }
-table tbody tr {
+table tbody tr:nth-child(even) {
 	background-color: #f9fafb;
 }
 table tbody tr:nth-child(odd) {
-	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 1)!important;
 }
 
 table.dataTable tbody th, table.dataTable tbody td {
@@ -488,7 +488,7 @@ table.freeze td:nth-child(1){
 table.freeze th:nth-child(2),
 table.freeze td:nth-child(2){
     position: sticky;
-    left: 115px;
+    left: 113px;
     z-index: 9999;
 }
 
@@ -499,6 +499,6 @@ table.freeze tbody td:nth-child(2){
     z-index: 9999;
 }
 
-table.freeze{
+/* table.freeze{
     border-collapse: separate;
-}
+} */
