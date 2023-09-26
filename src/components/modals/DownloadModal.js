@@ -3,15 +3,17 @@ import './../../css/style.css';
 import { Spin } from "react-cssfx-loading";
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import axios from 'axios';
 
 const DownloadModal = () => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
 
-  const [date, setDate] = useState(moment().format('DD/MM/YYYY')); 
+  const [date, setDate] = React.useState(dayjs());
+  const [formatDate, setFormatDate] = React.useState(dayjs().format("DD/MM/YYYY"));
+
   const [isDatePickerDisabled, setIsDatePickerDisabled] = useState(false);
   const [format, setFormat] = useState('csv');
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,59 +28,47 @@ const DownloadModal = () => {
   };
 
   useEffect(() => {
-    const inputElement = document.querySelector(".MuiInputBase-input");
-    const baseElement = document.querySelector(".css-4jnixx-MuiStack-root>.MuiTextField-root");
-    const calendarElement = document.querySelector(".MuiButtonBase-root");
-  
-    if (inputElement) {
-      console.log("Disabling");
-      inputElement.disabled = isDatePickerDisabled;
-      baseElement.disabled = isDatePickerDisabled;
-      calendarElement.disabled = isDatePickerDisabled;
-    }
-
-    console.log(isDatePickerDisabled);
-  }, [isDatePickerDisabled]);
+    setFormatDate(dayjs(date).format("DD/MM/YYYY"));
+  }, [date]);
 
   const downloadHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (isDatePickerDisabled){
-      console.log("All");
-    }
-    else{
-      console.log(date);
-    }
-
-    const requestData = {
-      date: isDatePickerDisabled ? "all" : date, // Use the separate state variable
-      format: format,
-    };
-
     try {
-      const response = await axios.get(`http://plnepi.alldataint.com/api/data-product/download`, requestData, {
-        responseType: 'blob',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.get(`http://plnepi.alldataint.com/api/data-product/download`, {
+        params: {
+          format: format,
+          date: isDatePickerDisabled ? "all" : formatDate
         },
+        responseType: 'blob'
       });
-      const blobURL = URL.createObjectURL(response.data);
 
-      const link = document.createElement('a');
-      link.style.display = 'none';
-      link.href = blobURL;
+      console.log('Response Headers:', response.headers);
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
       link.download = "data-product." + format;
 
+      if (format === "xlsx") {
+        link.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    }
+
+      link.style.display = "none";
+      
+    
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      setIsLoading(false);
+    
+      
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-
+    
     closeModal();
   };
 
@@ -101,10 +91,11 @@ const DownloadModal = () => {
            <div className="form-group datepicker">
               <div className='input-group date' id='date_picker_download'>
                 <DateInput
-                  selected={date}
-                  onChange={(newDate) => setDate(newDate)}
                   className="form-control form-input datepicker-control"
                   id="datepicker"
+                  isDatePickerDisabled={isDatePickerDisabled}
+                  date={date}
+                  setDate={setDate}
                 />
                
               </div>
