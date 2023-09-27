@@ -2,7 +2,7 @@ import React from 'react';
 
 import EditModal from '../modals/EditModal';
 
-const DataProductTable = ({ tableData, setCurrentPage, currentPage, totalPages}) => {
+const DataProductTable = ({ tableData, setCurrentPage, currentPage, totalPages, setShouldUpdate}) => {
   const pageButtons = [];
   const action = 'edit';
 
@@ -69,8 +69,16 @@ const DataProductTable = ({ tableData, setCurrentPage, currentPage, totalPages})
                 <td>{item.CODE}</td>
                 <td>{formatDate(item.CREATED_AT)}</td>
                 <td className="text-center small-column">
-                  <EditModal action={action}/>
-                  
+                  <EditModal action={action} 
+                  initialFormData={{
+                    id: item.ID,
+                    product: item.PRODUCT,
+                    quantity: item.QUANTITY,
+                    price: item.PRICE,
+                    code: item.CODE,
+                  }}
+                  setShouldUpdate={setShouldUpdate}
+                  />
                 </td>
               </tr>
             ))}

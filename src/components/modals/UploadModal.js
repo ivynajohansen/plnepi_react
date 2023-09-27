@@ -1,31 +1,75 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import './../../css/style.css';
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
+import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import TimeInput from '../TimeInput.js';
 
-const UploadModal = () => {
+const UploadModal = ({setShouldUpdate}) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [uploadDate, setUploadDate] = useState(moment().format('DD/MM/YYYY'));
-  const [uploadTime, setUploadTime] = useState('');
+  const [date, setDate] = React.useState(dayjs());
+  const [formatDate, setFormatDate] = React.useState(dayjs().format("DD/MM/YYYY"));
+
+  const [time, setTime] = React.useState(dayjs());
+  const [formatTime, setFormatTime] = React.useState(dayjs().format("HH:mm"));
+
   const [fileDescription, setFileDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [fileName, setFileName] = useState('');
+
+  useEffect(() => {
+    setFormatDate(dayjs(date).format("DD/MM/YYYY"));
+  }, [date]);
+
+  useEffect(() => {
+    setFormatTime(dayjs(time).format("HH:mm"));
+  }, [time]);
+
+
   const openModal = () => {
     setIsModalOpen(true);
+    setFileName(null);
+    setDate(dayjs());
+    setTime(dayjs());
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (event) => {
+    const fileInput = event.target;
+    if (fileInput.files.length === 0) {
+      setFileName(''); // No file selected, reset the fileName state
+    } else {
+      setFileName(fileInput.files[0].name);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    closeModal();
+    const formData = new FormData();
+    formData.append('file_choose', e.target.file_choose.files[0]);
+    formData.append('date', formatDate);
+    formData.append('time', formatTime);
+    formData.append('description', fileDescription);
+    try {
+      const response = await Axios.post('http://plnepi.alldataint.com/api/data-product/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the content type for file uploads
+        },
+      });
+      setShouldUpdate(true);
+      closeModal();
+    } catch (error) {
+      console.error('Error:', error);
+      // setErrorMessage(error.response);
+    }
+    
   };
 
   return (
@@ -39,28 +83,25 @@ const UploadModal = () => {
            <span className="close text-right" onClick={closeModal}>&times;</span>
          </div>
          <form className="pt-2 px-5 pb-4" id="upload_form" onSubmit={handleSubmit} encType="multipart/form-data">
-           {/* CSRF token here */}
            <div className="form-title form-group mt-3 mb-4">
              <h3 className="bold">Upload Data</h3>
            </div>
            <div className="form-group d-flex datepicker w-100">
              <div className="form-group w-50">
                <DateInput
-                //  selected={uploadDate}
-                 inputValue={uploadDate}
-                 onChange={(date) => setUploadDate(date)}
-                 dateFormat="dd/MM/yyyy"
-                 id="upload_date"
-                 className="form-control form-input"
+                  className="form-control form-input datepicker-control"
+                  id="datepicker"
+                  date={date}
+                  setDate={setDate}
+                  isDatePickerDisabled={false}
                /> 
              </div>
              <div className="ml-2 w-50 timepicker">
                <TimeInput
-                 onChange={(time) => setUploadTime(time)}
-                 inputValue={uploadTime}
                  id="upload_time"
-                 format="HH:mm"
                  className="form-control form-input w-100"
+                 time={time}
+                 setTime={setTime}
                />
              </div>
            </div>
@@ -68,10 +109,11 @@ const UploadModal = () => {
            <div className="form-group m-0 p-0 mt-1">
              <div className="form-group mb-3 position-relative w-100">
                <input
-                 className="form-input w-100 form-control"
-                 id="file_name"
-                 type="text"
-                 placeholder="Upload file"
+                  className="form-input w-100 form-control"
+                  id="file_name"
+                  type="text"
+                  placeholder="Upload file"
+                  defaultValue={fileName}
                />
                <label htmlFor="file_choose" className="button-inside-input">Choose File</label>
                <input
@@ -79,6 +121,7 @@ const UploadModal = () => {
                  id="file_choose"
                  name="file_choose"
                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 onChange={handleFileChange}
                  style={{ display: 'none' }}
                  required
                />

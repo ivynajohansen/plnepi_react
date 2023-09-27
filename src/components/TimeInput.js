@@ -8,12 +8,17 @@ import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import './../css/datetimepicker.css';
 
 
-function TimeInput() {
+function TimeInput({time, setTime}) {
+  const handleTimeChange = (newTime) => {
+    setTime(newTime);
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['TimePicker']}>
         <TimePicker
           label="Time"
+          value={time}
+          onChange={handleTimeChange}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,

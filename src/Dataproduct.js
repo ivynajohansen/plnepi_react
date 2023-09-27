@@ -16,11 +16,19 @@ function DataProduct() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isFetching, setIsFetching] = useState(false); 
+  const [shouldUpdate, setShouldUpdate] = useState(false); 
   const action = "add";
 
   useEffect(() => {
     fetchData();
-  }, [searchQuery, limit, currentPage]);
+  }, [searchQuery, limit, currentPage ]);
+
+  useEffect(() => {
+    if (shouldUpdate) {
+      fetchData();
+      setShouldUpdate(false);
+    }
+  }, [shouldUpdate]);
 
   const fetchData = async () => {
     setIsFetching(true);
@@ -48,9 +56,9 @@ function DataProduct() {
       <div className="ViewBox-content p-2">
   
         <div className="menu text-right d-flex justify-content-end">
-          <UploadModal/>
+          <UploadModal setShouldUpdate={setShouldUpdate}/>
           <DownloadModal/>
-          <EditModal action={action}/>
+          <EditModal action={action} setShouldUpdate={setShouldUpdate}/>
         </div>
 
         <TableQuery setSearchQuery={setSearchQuery} setLimit={setLimit} limit={limit} />
@@ -62,7 +70,7 @@ function DataProduct() {
               <Spin color="#306c84" width="20px" height="20px" className = "text-center" />
             </div>
           ) : (
-            <DataProductTable tableData={tableData} setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={totalPages}/>
+            <DataProductTable tableData={tableData} setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={totalPages} setShouldUpdate={setShouldUpdate}/>
           )}
         </div>
       </div>
