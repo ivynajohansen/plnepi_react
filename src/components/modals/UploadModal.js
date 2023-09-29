@@ -5,6 +5,7 @@ import Axios from 'axios';
 import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import TimeInput from '../TimeInput.js';
+import { useNavigate } from 'react-router-dom';
 
 const UploadModal = ({setShouldUpdate}) => {
 
@@ -20,6 +21,7 @@ const UploadModal = ({setShouldUpdate}) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const [fileName, setFileName] = useState('');
+  let navigate = useNavigate();
 
   useEffect(() => {
     setFormatDate(dayjs(date).format("DD/MM/YYYY"));
@@ -66,8 +68,11 @@ const UploadModal = ({setShouldUpdate}) => {
       setShouldUpdate(true);
       closeModal();
     } catch (error) {
-      console.error('Error:', error);
-      // setErrorMessage(error.response);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error:', error);
+      }
     }
     
   };

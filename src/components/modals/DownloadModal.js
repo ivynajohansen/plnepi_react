@@ -6,6 +6,7 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const DownloadModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,7 @@ const DownloadModal = () => {
   const [isDatePickerDisabled, setIsDatePickerDisabled] = useState(false);
   const [format, setFormat] = useState('csv');
   const [errorMessage, setErrorMessage] = useState('');
+  let navigate = useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -64,7 +66,11 @@ const DownloadModal = () => {
     
       
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error:', error);
+      }
     } finally {
       setIsLoading(false);
     }

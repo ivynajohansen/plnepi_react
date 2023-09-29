@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faPen } from '@fortawesome/free-solid-svg-icons';
-import React, { useState, useEffect } from 'react';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Spin } from "react-cssfx-loading";
+import DeleteModal from './DeleteModal';
+import { useNavigate } from 'react-router-dom';
 
 const EditModal = ({action, initialFormData, setShouldUpdate}) => {
   const [isModalOpen, setisModalOpen] = useState(false);
@@ -12,15 +14,7 @@ const EditModal = ({action, initialFormData, setShouldUpdate}) => {
 
   let content;
   let title;
-
-  // action = '/edit';
-  if (action === 'edit') {
-      title = 'Edit';
-      content = <button className="sub_btn action-button text-danger" id="delete_btn" type="button"><FontAwesomeIcon icon={faTrashAlt} /> &nbsp; Delete</button>;
-  } 
-  else {
-      title = 'Add';
-  }
+  let navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,9 +50,12 @@ const EditModal = ({action, initialFormData, setShouldUpdate}) => {
         // Close the modal or perform other actions as needed
         closeModal();
       } catch (error) {
-        // Handle errors here
-        console.error('Error:', error.response.data.error);
-        setErrorMessage(error.response.data.error);
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+        } else {
+          setErrorMessage(error.response.data.error);
+        }
+        
       }
     }
     else {
@@ -76,6 +73,14 @@ const EditModal = ({action, initialFormData, setShouldUpdate}) => {
 
     setIsLoading(false);
   };
+
+  if (action === 'edit') {
+    title = 'Edit';
+    content = <DeleteModal id={formData.id} setShouldUpdate={setShouldUpdate}/>
+  } 
+  else {
+      title = 'Add';
+  }
 
   return (
     <div>

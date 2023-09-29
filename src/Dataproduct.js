@@ -9,6 +9,8 @@ import UploadModal from './components/modals/UploadModal';
 import DownloadModal from './components/modals/DownloadModal';
 import TableQuery from './components/TableQuery';
 
+import { useNavigate } from 'react-router-dom';
+
 function DataProduct() {
   const [searchQuery, setSearchQuery] = useState('');
   const [tableData, setTableData] = useState([]);
@@ -18,6 +20,8 @@ function DataProduct() {
   const [isFetching, setIsFetching] = useState(false); 
   const [shouldUpdate, setShouldUpdate] = useState(false); 
   const action = "add";
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -34,6 +38,7 @@ function DataProduct() {
     setIsFetching(true);
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/data-product`, {
+        withCredentials: true,
         params: {
           keyword: searchQuery,
           limit: limit,
@@ -44,7 +49,11 @@ function DataProduct() {
       setTotalPages(response.data.last_page); // Update the total pages
       setIsFetching(false);
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error:', error.response.data.error);
+      }
     }
   };
 

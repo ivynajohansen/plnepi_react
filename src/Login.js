@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Spin } from "react-cssfx-loading";
+import Cookies from 'js-cookie';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faLock} from '@fortawesome/free-solid-svg-icons'
@@ -27,9 +28,14 @@ function Login() {
 
     //send data to server
     try {
-      const response = await axios.post('http://plnepi.alldataint.com/api/login', requestData);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const response = await axios.post('http://plnepi.alldataint.com/api/login', requestData, {
+        withCredentials: true,
+      });
+      if (response.headers['set-cookie']) {
+        console.log(response.headers['set-cookie']);
+      } else {
+        console.log('Set-Cookie header not found in response.');
+      }
       navigate('/');
     } catch (error) {
       if (error.response.data.username) {

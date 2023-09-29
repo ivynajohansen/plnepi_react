@@ -6,6 +6,8 @@ import axios from 'axios';
 import LogActivityTable from './components/tables/LogActivityTable';
 import TableQuery from './components/TableQuery';
 
+import { useNavigate } from 'react-router-dom';
+
 function LogActivity() {
   const [searchQuery, setSearchQuery] = useState('');
   const [tableData, setTableData] = useState([]);
@@ -13,6 +15,8 @@ function LogActivity() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isFetching, setIsFetching] = useState(false); 
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -32,7 +36,11 @@ function LogActivity() {
       setTotalPages(response.data.last_page); // Update the total pages
       setIsFetching(false);
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error:', error.response.data.error);
+      }
     }
   };
 

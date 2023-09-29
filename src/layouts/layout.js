@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,62 +14,20 @@ import Logo from './../images/logo.png';
 const Layout = () => {
 
   let navigate = useNavigate();
-  const location = useLocation();
-  
-  useEffect(() => {
-    fetchAuth();
-  }, [location]);
-  
-  const fetchAuth = async () => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      return axios.post('http://plnepi.alldataint.com/api/auth', {}, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-           
-          } else if (response.status === 401) {
-            console.log("Token not valid");
-            navigate('/login');
-            localStorage.removeItem('token');
-          }
-        })
-        .catch((error) => {
-          console.error('Auth error:', error);
-          navigate('/login');
-          localStorage.removeItem('token');
-        });
-    } else {
-      navigate('/login');
-    }
-  };
   
   const logoutHandler = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        // Send a POST request to the logout API endpoint with the token in the header
-        await axios.post('http://plnepi.alldataint.com/api/logout', {}, {
-          headers: {
-            'Accept' : 'application/json',
-            'Content-type' : 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        localStorage.removeItem('token');
-        navigate('/login');
-      } catch (error) {
-        console.error('Logout error:', error);
-      }
-    } else {
+    try {
+      // Send a POST request to the logout API endpoint with the token in the header
+      await axios.post('http://plnepi.alldataint.com/api/logout', {}, {
+        headers: {
+          'Accept' : 'application/json',
+          'Content-type' : 'application/json',
+        },
+      });
       navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
     }
   };
 

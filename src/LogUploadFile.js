@@ -5,6 +5,8 @@ import axios from 'axios';
 import LogUploadFileTable from './components/tables/LogUploadFileTable';
 import TableQuery from './components/TableQuery';
 
+import { useNavigate } from 'react-router-dom';
+
 function LogUploadFile() {
   const [searchQuery, setSearchQuery] = useState('');
   const [tableData, setTableData] = useState([]);
@@ -12,6 +14,8 @@ function LogUploadFile() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isFetching, setIsFetching] = useState(false); 
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -31,7 +35,11 @@ function LogUploadFile() {
       setTotalPages(response.data.last_page); // Update the total pages
       setIsFetching(false);
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error:', error.response.data.error);
+      }
     }
   };
 
