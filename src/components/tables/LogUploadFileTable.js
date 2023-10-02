@@ -9,13 +9,14 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 const LogUploadFileTable = ({ tableData, setCurrentPage, currentPage, totalPages}) => {
   const pageButtons = [];
   const [fetchingRow, setFetchingRow] = useState(null); 
-
+  const token = localStorage.getItem('jwt_token');
   const downloadFile = async (file_name) => {
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/log-upload-file/` + encodeURIComponent(file_name), {
         responseType: 'blob',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
       const blobURL = URL.createObjectURL(response.data);

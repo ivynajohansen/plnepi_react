@@ -24,12 +24,17 @@ function LogActivity() {
 
   const fetchData = async () => {
     setIsFetching(true);
+    const token = localStorage.getItem('jwt_token');
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/log-activity`, {
         params: {
           keyword: searchQuery,
           limit: limit,
           page: currentPage,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'application/json',
         },
       });
       setTableData(response.data.data); // Update the data in your state
