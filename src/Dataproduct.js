@@ -36,9 +36,15 @@ function DataProduct() {
 
   const fetchData = async () => {
     setIsFetching(true);
+    const token = localStorage.getItem('jwt_token');
+
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/data-product`, {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'application/json',
+        },
         params: {
           keyword: searchQuery,
           limit: limit,

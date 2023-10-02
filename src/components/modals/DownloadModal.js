@@ -2,7 +2,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './../../css/style.css';
 import { Spin } from "react-cssfx-loading";
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import axios from 'axios';
@@ -36,9 +35,13 @@ const DownloadModal = () => {
   const downloadHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+    const token = localStorage.getItem('jwt_token');
     try {
       const response = await axios.get(`http://plnepi.alldataint.com/api/data-product/download`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'application/json',
+        },
         params: {
           format: format,
           date: isDatePickerDisabled ? "all" : formatDate
@@ -133,7 +136,7 @@ const DownloadModal = () => {
            </div>
 
            <div className="d-flex justify-content-end align-items-center">
-             <div className="text-right">
+             <div className="text-right d-flex align-items-center">
                <button
                  className="sub_btn edit mt-3 mb-3 mr-2"
                  id="product_cancel"
@@ -147,7 +150,11 @@ const DownloadModal = () => {
                  className="submit primary_btn edit mt-3 mb-3"
                  id="modal_download_button"
                >
-                 Download
+                 {isLoading ? (
+                   <Spin color="#FFFFFF" width="20px" height="20px" className='my-1 mx-2'/> 
+                  ) : (
+                    "Download"
+                  )}
                </button>
              </div>
            </div>

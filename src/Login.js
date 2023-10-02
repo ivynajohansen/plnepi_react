@@ -30,12 +30,16 @@ function Login() {
     try {
       const response = await axios.post('http://plnepi.alldataint.com/api/login', requestData, {
         withCredentials: true,
+        headers: {
+          'Access-Control-Allow-Origin': '*', 
+        }
       });
-      if (response.headers['set-cookie']) {
-        console.log(response.headers['set-cookie']);
-      } else {
-        console.log('Set-Cookie header not found in response.');
-      }
+
+      // temporarily save in storage
+      const token = response.data.token;
+      localStorage.setItem('jwt_token', token);
+      // 
+
       navigate('/');
     } catch (error) {
       if (error.response.data.username) {

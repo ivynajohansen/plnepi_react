@@ -6,9 +6,10 @@ import dayjs from 'dayjs';
 import DateInput from '../DateInput.js';
 import TimeInput from '../TimeInput.js';
 import { useNavigate } from 'react-router-dom';
+import { Spin } from "react-cssfx-loading";
 
 const UploadModal = ({setShouldUpdate}) => {
-
+  const [isLoading, setIsLoading] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [date, setDate] = React.useState(dayjs());
@@ -54,14 +55,17 @@ const UploadModal = ({setShouldUpdate}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData();
     formData.append('file_choose', e.target.file_choose.files[0]);
     formData.append('date', formatDate);
     formData.append('time', formatTime);
     formData.append('description', fileDescription);
+    const token = localStorage.getItem('jwt_token');
     try {
       const response = await Axios.post('http://plnepi.alldataint.com/api/data-product/upload', formData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data', // Set the content type for file uploads
         },
       });
@@ -74,7 +78,7 @@ const UploadModal = ({setShouldUpdate}) => {
         console.error('Error:', error);
       }
     }
-    
+    setIsLoading(false);
   };
 
   return (
@@ -144,9 +148,15 @@ const UploadModal = ({setShouldUpdate}) => {
              </div>
            </div>
            <div className="d-flex justify-content-end align-items-center">
-             <div className="text-right">
+             <div className="text-right d-flex align-items-center">
                <button className="sub_btn edit mt-3 mb-3" id="product_cancel" onClick={closeModal} type="button">Cancel</button>
-               <button type="submit" className="submit primary_btn edit mt-3 mb-3" id="upload_save">Upload</button>
+               <button type="submit" className="submit primary_btn edit mt-3 mb-3 ml-1" id="upload_save">
+                {isLoading ? (
+                    <Spin color="#FFFFFF" width="20px" height="20px" className='my-1 mx-2'/> 
+                  ) : (
+                    "Upload"
+                  )}
+               </button>
              </div>
            </div>
            <p className="error_message text-danger p-0 m-0" id="error_message" style={{ fontSize: '12px' }}>{errorMessage}</p>

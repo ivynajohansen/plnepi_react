@@ -24,9 +24,13 @@ const DeleteModal = ({id, setShouldUpdate}) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
-
+    const token = localStorage.getItem('jwt_token');
     try {
       const response = await axios.delete(`http://plnepi.alldataint.com/api/data-product`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'application/json',
+        },
         data: { id }
       });
       console.log('Response:', response.data);
@@ -36,7 +40,7 @@ const DeleteModal = ({id, setShouldUpdate}) => {
       if (error.response && error.response.status === 401) {
         navigate('/login');
       } else {
-        console.error('Error:', error.response.data.error);
+        console.error('Error:', error.response);
       }
     }
     
@@ -62,7 +66,13 @@ const DeleteModal = ({id, setShouldUpdate}) => {
           <div className="d-flex justify-content-center align-items-center mb-2">
             <div className="d-flex text-center">
               <button className="sub_btn edit mt-3 mb-3 mr-1" id="delete_cancel" onClick={closeModal} type="button">Cancel</button>
-              <button className="submit primary_btn edit mt-3 mb-3 bg-danger" id="delete_confirm" type="submit" onClick={handleDelete}>Delete</button>
+              <button className="submit primary_btn edit mt-3 mb-3 bg-danger" id="delete_confirm" type="submit" onClick={handleDelete}>
+                {isDeleting ? (
+                   <Spin color="#FFFFFF" width="20px" height="20px" className='my-1 mx-2'/> 
+                  ) : (
+                    "Delete"
+                  )}
+              </button>
             </div>
           </div>
 

@@ -41,10 +41,15 @@ const EditModal = ({action, initialFormData, setShouldUpdate}) => {
       price: formData.price,
       code: formData.code,
     };
-
+    const token = localStorage.getItem('jwt_token');
     if (action === 'edit'){
       try {
-        const response = await axios.put(`http://plnepi.alldataint.com/api/data-product`, data);
+        const response = await axios.put(`http://plnepi.alldataint.com/api/data-product`, data, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log('Response:', response.data);
         setShouldUpdate(true);
         // Close the modal or perform other actions as needed
@@ -60,7 +65,13 @@ const EditModal = ({action, initialFormData, setShouldUpdate}) => {
     }
     else {
       try {
-        const response = await axios.post(`http://plnepi.alldataint.com/api/data-product`, data);
+        const response = await axios.post(`http://plnepi.alldataint.com/api/data-product`, data, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": 'application/json',
+          },
+        });
         console.log('Response:', response.data);
         setShouldUpdate(true);
         closeModal();
