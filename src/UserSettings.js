@@ -37,7 +37,11 @@ const UserSettings = () => {
       });
       setUserData(response.data.data);
     } catch (error) {
-      console.error('API Error:', error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login');
+      } else {
+        // console.error('Error:', error.response.data.error);
+      }
     }
 
     setIsFetching(false);
