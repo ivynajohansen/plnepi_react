@@ -58,7 +58,7 @@ function DataProduct() {
       if (error.response && error.response.status === 401) {
         navigate('/login');
       } else {
-        console.error('Error:', error.response.data.error);
+        // console.error('Error:', error.response.data.error);
       }
     }
   };

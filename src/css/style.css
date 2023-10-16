@@ -478,6 +478,36 @@ table.freeze tbody td:nth-child(2){
     z-index: 9999;
 }
 
+.profile{
+    display: flex;
+    align-items: center;
+    margin: 3px;
+}
+
+.profile-link{
+    text-align: end;
+
+    color:#286c85;
+    font-size: 20px;
+    padding: 11px;
+}
+
+.profile-link:hover{
+    color: #205a6e;
+    transition: 0.1s ease-out;
+}
 /* table.freeze{
     border-collapse: separate;
 } */
+
+@media (max-width: 1280px) {
+    .profile{
+        display: block;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-link{
+        text-align: center;
+    }
+}

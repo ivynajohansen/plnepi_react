@@ -8,6 +8,7 @@ import DataProduct from './Dataproduct';
 import LogActivity from './LogActivity';
 import LogUploadFile from './LogUploadFile';
 import BebanHarian from './BebanHarian';
+import EditUserSettings from './UserSettings';
 import Login from './Login';
 
 const AppRouter = () => {
@@ -20,6 +21,7 @@ const AppRouter = () => {
           <Route path="log-activity" element={<LogActivity />} />
           <Route path="log-upload-file" element={<LogUploadFile />} />
           <Route path="beban-harian" element={<BebanHarian />} />
+          <Route path="user-settings" element={<EditUserSettings />} />
         </Route>
         <Route path="/login" element={<LayoutLogin />}>
           <Route index element={<Login />} />

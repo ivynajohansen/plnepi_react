@@ -33,6 +33,7 @@ const LogUploadFileTable = ({ tableData, setCurrentPage, currentPage, totalPages
       setFetchingRow(null);
     } catch (error) {
       console.error(error);
+      setFetchingRow(null);
     }
   };
 
