@@ -44,6 +44,7 @@ const Layout = () => {
   
   const logoutHandler = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('jwt_token');
     try {
       // Send a POST request to the logout API endpoint with the token in the header
       await axios.post('http://plnepi.alldataint.com/api/logout', {}, {
